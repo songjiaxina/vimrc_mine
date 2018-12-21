@@ -1,0 +1,276 @@
+"basic system settings
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set smartindent
+set expandtab
+"pair bracket and auto tab very nice
+imap{ {}<ESC>i<CR><ESC>O 
+imap [ []<LEFT>
+imap ( ()<LEFT>
+
+"打开语法高亮
+syntax on
+
+"set cursorcolumn
+set cursorline
+set nocompatible
+
+au InsertLeave *.eml write       " 每次退出插入模式时自动保存
+
+" detect file type
+filetype on
+filetype plugin on
+" If using a dark background within the editing area and syntax highlighting
+" turn on this option as well
+set background=dark
+set backspace=2 " 设置退格键可用
+set showmatch " 设置匹配模式，显示匹配的括号
+set linebreak " 整词换行
+set whichwrap=b,s,<,>,[,] " 光标从行首和行末时可以跳到另一行去
+"set hidden " Hide buffers when they are abandoned
+set mouse=a " Enable mouse usage (all modes) "使用鼠标
+set number " Enable line number "显示行号
+"set previewwindow " 标识预览窗口
+set history=50 " set command history to 50 "历史记录50条
+
+
+"--状态行设置--
+set laststatus=2 " 总显示最后一个窗口的状态行；设为1则窗口数多于一个的时候显示最后一个窗口的状态行；0不显示最后一个窗口的状态行
+set ruler " 标尺，用于显示光标位置的行号和列号，逗号分隔。每个窗口都有自己的标尺。如果窗口有状态行，标尺在那里显示。否则，它显示在屏幕的最后一行上。
+
+"--命令行设置--
+set showcmd " 命令行显示输入的命令
+set showmode " 命令行显示vim当前模式
+
+"--find setting--
+set incsearch " 输入字符串就显示匹配点
+set hlsearch
+
+"github上别人的设置
+" Set to auto read when a file is changed from the outside
+set autoread
+
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader = "," "设置leader键为逗号
+
+" Fast saving
+nmap <leader>w :w!<cr>
+nmap <leader>q :qa!<cr>
+
+" :W sudo saves the file 
+" (useful for handling the permission-denied error)
+command W w !sudo tee % > /dev/null
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM user interface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set 7 lines to the cursor - when moving vertically using j/k
+"set so=7
+
+
+
+"插件相关
+" 设置包括vundle和初始化相关的runtime path
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" 另一种选择, 指定一个vundle安装插件的路径
+"call vundle#begin('~/some/path/here')
+
+" 让vundle管理插件版本,必须
+Plugin 'VundleVim/Vundle.vim'
+
+" 以下范例用来支持不同格式的插件安装.
+" 请将安装插件的命令放在vundle#begin和vundle#end之间.
+" Github上的插件
+" 格式为 Plugin '用户名/插件仓库名'
+Plugin 'tpope/vim-fugitive'
+" 来自 http://vim-scripts.org/vim/scripts.html 的插件
+" Plugin '插件名称' 实际上是 Plugin 'vim-scripts/插件仓库名' 只是此处的用户名可以省略
+Plugin 'L9'
+" 由Git支持但不再github上的插件仓库 Plugin 'git clone 后面的地址'
+"Plugin 'git://git.wincent.com/command-t.git'
+" 本地的Git仓库(例如自己的插件) Plugin 'file:///+本地插件仓库绝对路径'
+"Plugin 'file:///home/gmarik/path/to/plugin'
+" 插件在仓库的子目录中.
+" 正确指定路径用以设置runtimepath. 以下范例插件在sparkup/vim目录下
+"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" 安装L9，如果已经安装过这个插件，可利用以下格式避免命名冲突
+"Plugin 'ascenator/L9', {'name': 'newL9'}
+
+
+
+
+Plugin 'scrooloose/nerdtree' "文件树：NERDTree
+Plugin 'skywind3000/asyncrun.vim' "异步编译
+Plugin 'morhetz/gruvbox'  "主题
+"Plugin 'brookhong/cscope.vim'
+"Plugin 'ludovicchabant/vim-gutentags' "gutentags是用来自动更新标签的插件
+"Plugin 'skywind3000/gutentags_plus' "gutentags_plus是gutentags加强版，提供了很多很好用的功能
+"Plugin 'skywind3000/vim-preview'
+Plugin 'w0rp/ale' " "语法检查ALE插件
+"Plugin 'Shougo/echodoc.vim' "Displays function signatures from completions in the command line.
+Plugin 'octol/vim-cpp-enhanced-highlight' " c++ 11 syntax highlight
+Plugin 'scrooloose/nerdcommenter' "快速注释
+Plugin 'fholgado/minibufexpl.vim'
+Plugin 'nathanaelkane/vim-indent-guides' "可视化的方式能将相同缩进的代码关联起来
+Plugin 'Valloric/YouCompleteMe' 
+
+call vundle#end()            " 必须 你的所有插件需要在这行之前
+filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本
+" 忽视插件改变缩进,可以使用以下替代:
+"filetype plugin on
+"
+" 简要帮助文档
+" :PluginList       - 列出所有已配置的插件
+" :PluginInstall    - 安装插件,追加 `!` 用以更新或使用 :PluginUpdate
+" :PluginSearch foo - 搜索 foo ; 追加 `!` 清除本地缓存
+" :PluginClean      - 清除未使用插件,需要确认; 追加 `!` 自动批准移除未使用插件
+"
+" 查阅 :h vundle 获取更多细节和wiki以及FAQ
+" 将你自己对非插件片段放在这行之后
+
+
+"-------------------------------------------------------------
+" NerdTree插件的配置信息
+""将F2设置为开关NERDTree的快捷键
+map <f2> :NERDTreeToggle<cr>
+""修改树的显示图标
+let g:NERDTreeDirArrowExpandable = '+'
+let g:NERDTreeDirArrowCollapsible = '-'
+""窗口位置
+let g:NERDTreeWinPos='right'
+""窗口尺寸
+let g:NERDTreeSize=28
+""窗口是否显示行号
+let g:NERDTreeShowLineNumbers=1
+""隐藏文件xianshi xiangguan
+let g:NERDTreeHidden=0
+"-------------------------------------------------------------
+"airline插件的配置信息
+set laststatus=2  "永远显示状态栏
+set t_Co=256      "在windows中用xshell连接打开vim可以显示色彩
+"-------------------------------------------------------------
+colorscheme gruvbox "让主题生效
+"-------------------------------------------------------------
+"YCM插件的配置信息
+let g:ycm_server_python_interpreter='/usr/bin/python3'
+"let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+"set runtimepath+=~/.vim/bundle/YouCompleteMe
+let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_server_log_level = 'info'
+let g:ycm_min_num_identifier_candidate_chars = 2
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_complete_in_strings=1
+let g:ycm_key_invoke_completion = '<c-z>'
+set completeopt=menu,menuone
+
+noremap <c-z> <NOP>
+
+let g:ycm_semantic_triggers =  {
+			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+			\ 'cs,lua,javascript': ['re!\w{2}'],
+			\ }
+let g:ycm_filetype_whitelist = { 
+			\ "c":1,
+			\ "cpp":1, 
+			\ "objc":1,
+			\ "sh":1,
+			\ "zsh":1,
+			\ "zimbu":1,
+			\ }
+"-------------------------------------------------------------
+" asyncrun 异步编译配置
+" 自动打开 quickfix window ，高度为 6
+let g:asyncrun_open = 26
+" 任务结束时候响铃提醒
+let g:asyncrun_bell = 1
+" 设置 F10 打开/关闭 Quickfix 窗口
+nnoremap <F10> :call asyncrun#quickfix_toggle(26)<cr>
+nnoremap <silent> <F6> :AsyncRun -cwd=<root> cd build&&cmake .. <cr>
+nnoremap <silent> <F7> :AsyncRun -cwd=<root> cd build&&make -j2 <cr>
+"-------------------------------------------------------------
+let g:rainbow_active = 1  "caihong bracket
+"-------------------------------------------------------------
+"-------------------------------------------------------------
+"语法检查ALE插件
+let g:ale_sign_column_always = 1
+let g:ale_set_highlights = 0
+"自定义error和warning图标
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚡'
+"在vim自带的状态栏中整合ale
+let g:ale_statusline_format = ['✗ %d', '⚡ %d', '✔ OK']
+"添加检测完成后回调
+augroup YourGroup
+    autocmd!
+    autocmd User ALELint call YourFunction()
+augroup END
+"显示Linter名称,出错或警告等相关信息
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+"普通模式下，sp前往上一个错误或警告，sn前往下一个错误或警告
+nmap sp <Plug>(ale_previous_wrap)
+nmap sn <Plug>(ale_next_wrap)
+"<Leader>s触发/关闭语法检查
+"nmap <Leader>s :ALEToggle<CR>
+"<Leader>d查看错误或警告的详细信息
+nmap <Leader>ale :ALEDetail<CR>
+"使用clang对c和c++进行语法检查，对python使用pylint进行语法检查
+let g:ale_linters = {
+\   'c++': ['clang'],
+\   'c': ['clang'],
+\}
+"-------------------------------------------------------------
+"echodoc.vim
+set noshowmode
+"-------------------------------------------------------------
+"vim-cpp-enhanced-highlight c++ 11 syntax highlight
+let g:cpp_class_scope_highlight = 1 "class name highlight
+let g:cpp_member_variable_highlight = 1 "Highlighting of member variables
+let g:cpp_concepts_highlight = 1
+"let g:cpp_no_function_highlight = 1 "Highlighting of user defined functions can be disabled by
+"-------------------------------------------------------------
+"commenter
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+" Enable NERDCommenterToggle to check all selected lines is commented or not 
+let g:NERDToggleCheckAllLines = 1
+"-------------------------------------------------------------
+let g:miniBufExplMapWindowNavVim = 1   
+let g:miniBufExplMapWindowNavArrows = 1   
+let g:miniBufExplMapCTabSwitchBufs = 1   
+let g:miniBufExplModSelTarget = 1  
+let g:miniBufExplMoreThanOne=0
+
+nmap <leader>f :MBEbn<CR>
+nmap <leader>b :MBEbp<CR>
+nmap <leader>d :MBEbd<CR>
+"-------------------------------------------------------------
+"可视化的方式能将相同缩进的代码关联起来
+" 随 vim 自启动
+let g:indent_guides_enable_on_vim_startup=1
+" 从第二层开始可视化显示缩进
+let g:indent_guides_start_level=2
+" 色块宽度
+let g:indent_guides_guide_size=1
+" 快捷键 i 开/关缩进可视化
+:nmap <silent> <Leader>i <Plug>IndentGuidesToggle
+"-------------------------------------------------------------
+"-------------------------------------------------------------
